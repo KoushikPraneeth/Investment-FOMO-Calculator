@@ -2,6 +2,7 @@ package com.koushik.fomo.fomocalculatorbackend.model;
 
 import lombok.Data;
 import lombok.Builder;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,4 +18,14 @@ public class InvestmentResult {
     private int pizzaCount;
     private int vacationCount;
     private double retirementYears;
+
+    // Historical price data for charting
+    private List<HistoricalPricePoint> historicalPrices;
+
+    @Data
+    @Builder
+    public static class HistoricalPricePoint {
+        private String date;
+        private double price;
+    }
 }

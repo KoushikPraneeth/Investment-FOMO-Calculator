@@ -3,7 +3,7 @@ import { TrendingUp, TrendingDown } from 'lucide-react';
 import type { InvestmentResult } from '../services/api';
 import { PainScaleVisualizer } from './PainScaleVisualizer';
 import { MemeGenerator } from './MemeGenerator';
-import { InvestmentChart, mockChartData, mockComparisonChartData } from './InvestmentChart';
+import { InvestmentChart } from './InvestmentChart';
 
 interface ResultsDisplayProps {
   results: InvestmentResult | null;
@@ -87,10 +87,9 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, compari
         <SingleResultDisplay result={results} />
       )}
 
-      {/* Only show pain scale and meme for single investment view */}
       <InvestmentChart
-        mainData={mockChartData}
-        comparisonData={comparisonResults ? mockComparisonChartData : undefined}
+        mainData={results.historicalPrices}
+        comparisonData={comparisonResults?.historicalPrices}
         mainLabel={results.assetName}
         comparisonLabel={comparisonResults?.assetName}
       />

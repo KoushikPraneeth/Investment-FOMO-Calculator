@@ -24,37 +24,10 @@ ChartJS.register(
   Legend
 );
 
-// Mock data structure
 interface PriceDataPoint {
   date: string;
   price: number;
 }
-
-// Example mock data for testing
-export const mockChartData: PriceDataPoint[] = [
-  { date: '2023-01-01', price: 16500 },
-  { date: '2023-01-08', price: 17000 },
-  { date: '2023-01-15', price: 18200 },
-  { date: '2023-01-22', price: 21000 },
-  { date: '2023-01-29', price: 23500 },
-  { date: '2023-02-05', price: 22800 },
-  { date: '2023-02-12', price: 24000 },
-  { date: '2023-02-19', price: 23000 },
-  { date: '2023-02-26', price: 25000 },
-];
-
-// Example mock comparison data
-export const mockComparisonChartData: PriceDataPoint[] = [
-  { date: '2023-01-01', price: 380 },
-  { date: '2023-01-08', price: 385 },
-  { date: '2023-01-15', price: 390 },
-  { date: '2023-01-22', price: 395 },
-  { date: '2023-01-29', price: 405 },
-  { date: '2023-02-05', price: 410 },
-  { date: '2023-02-12', price: 415 },
-  { date: '2023-02-19', price: 420 },
-  { date: '2023-02-26', price: 425 },
-];
 
 interface InvestmentChartProps {
   mainData?: PriceDataPoint[];
@@ -65,8 +38,12 @@ interface InvestmentChartProps {
   exitDate?: Date;
 }
 
+const sortByDate = (data: PriceDataPoint[]) => {
+  return [...data].sort((a, b) => parseISO(a.date).getTime() - parseISO(b.date).getTime());
+};
+
 export const InvestmentChart: React.FC<InvestmentChartProps> = ({
-  mainData = mockChartData,
+  mainData = [],
   comparisonData,
   mainLabel = 'Asset Price',
   comparisonLabel = 'Comparison Asset',
@@ -77,19 +54,23 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
     return format(parseISO(dateString), 'MMM d, yyyy');
   };
 
+  // Sort data chronologically
+  const sortedMainData = sortByDate(mainData);
+  const sortedComparisonData = comparisonData ? sortByDate(comparisonData) : undefined;
+
   const chartData = {
-    labels: mainData.map(d => formatDate(d.date)),
+    labels: sortedMainData.map(d => formatDate(d.date)),
     datasets: [
       {
         label: mainLabel,
-        data: mainData.map(d => d.price),
+        data: sortedMainData.map(d => d.price),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
         tension: 0.1,
       },
-      ...(comparisonData ? [{
+      ...(sortedComparisonData ? [{
         label: comparisonLabel,
-        data: comparisonData.map(d => d.price),
+        data: sortedComparisonData.map(d => d.price),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
         tension: 0.1,
@@ -126,6 +107,14 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
       },
     },
   };
+
+  if (!mainData.length) {
+    return (
+      <div className="bg-white rounded-lg shadow-lg p-6 flex items-center justify-center h-64">
+        <p className="text-gray-500">No price history data available</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">

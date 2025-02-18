@@ -1,12 +1,15 @@
 package com.koushik.fomo.fomocalculatorbackend.service;
 
 import com.koushik.fomo.fomocalculatorbackend.model.InvestmentResult;
+import com.koushik.fomo.fomocalculatorbackend.model.fmp.FmpHistoricalPrice;
 import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +29,11 @@ public class CalculationService {
     public InvestmentResult calculateInvestment(String symbol, LocalDate entryDate, LocalDate exitDate, double investmentAmount) {
         log.info("Calculating investment result for symbol: {}, entry: {}, exit: {}, amount: ${}", 
                 symbol, entryDate, exitDate, investmentAmount);
-        // Get prices from financial data service
+
+        // Get historical prices
+        List<FmpHistoricalPrice> historicalPrices = financialDataService.getHistoricalPrices(symbol, entryDate, exitDate);
+        
+        // Get entry and exit prices
         log.debug("Fetching entry and exit prices from financial data service");
         double entryPrice = financialDataService.getClosestPrice(symbol, entryDate);
         double exitPrice = financialDataService.getClosestPrice(symbol, exitDate);
@@ -45,6 +52,14 @@ public class CalculationService {
         int vacationCount = calculateVacationCount(profitLoss);
         double retirementYears = calculateRetirementYears(profitLoss);
 
+        // Convert historical prices to data points
+        List<InvestmentResult.HistoricalPricePoint> pricePoints = historicalPrices.stream()
+            .map(hp -> InvestmentResult.HistoricalPricePoint.builder()
+                .date(hp.getDate())
+                .price(hp.getAdjustedClose())
+                .build())
+            .collect(Collectors.toList());
+
         log.info("Investment calculation completed - Profit/Loss: ${}, Percentage: {}%, Pizza Count: {}, Vacation Count: {}, Retirement Years: {}", 
                 profitLoss, profitLossPercentage, pizzaCount, vacationCount, retirementYears);
 
@@ -59,6 +74,7 @@ public class CalculationService {
                 .pizzaCount(pizzaCount)
                 .vacationCount(vacationCount)
                 .retirementYears(retirementYears)
+                .historicalPrices(pricePoints)
                 .build();
     }
 

@@ -3,6 +3,11 @@ import { format } from 'date-fns';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
+interface HistoricalPricePoint {
+  date: string;
+  price: number;
+}
+
 export interface InvestmentRequest {
   assetSymbol: string;
   entryDate: Date;
@@ -17,6 +22,10 @@ export interface InvestmentResult {
   profitLoss: number;
   profitLossPercentage: number;
   investmentAmount: number;
+  pizzaCount: number;
+  vacationCount: number;
+  retirementYears: number;
+  historicalPrices: HistoricalPricePoint[];
 }
 
 export const fetchInvestmentData = async (request: InvestmentRequest): Promise<InvestmentResult> => {
