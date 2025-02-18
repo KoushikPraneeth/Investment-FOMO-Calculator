@@ -31,7 +31,7 @@ export const AssetDropdown: React.FC<AssetDropdownProps> = ({
         onChange={(e) => onAssetChange(e.target.value)}
         className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
-        <option value="">Select an asset</option>
+        <option value="">Pick an asset (e.g., Bitcoin, Beanie Babies, or Grandma’s Vintage China)</option>
         {ASSETS.map((asset) => (
           <option key={asset.symbol} value={asset.symbol}>
             {asset.symbol} - {asset.name}

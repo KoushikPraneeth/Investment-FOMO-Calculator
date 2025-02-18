@@ -30,7 +30,7 @@ export const AmountInput: React.FC<AmountInputProps> = ({
           type="text"
           value={amount}
           onChange={handleChange}
-          placeholder="Enter amount"
+          placeholder="Enter your imaginary investment amount (we won’t judge)"
           className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>

@@ -13,6 +13,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +23,20 @@ public class FinancialDataService {
     private final RestTemplate restTemplate;
     private final FmpConfig fmpConfig;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final Map<String, List<FmpHistoricalPrice>> historicalPricesCache = new HashMap<>();
+
+    private String generateCacheKey(String symbol, LocalDate from, LocalDate to) {
+        return symbol + "_" + from.format(DATE_FORMATTER) + "_" + to.format(DATE_FORMATTER);
+    }
 
     public List<FmpHistoricalPrice> getHistoricalPrices(String symbol, LocalDate from, LocalDate to) {
+        String cacheKey = generateCacheKey(symbol, from, to);
+
+        if (historicalPricesCache.containsKey(cacheKey)) {
+            log.info("Cache hit for symbol: {}, from: {}, to: {}", symbol, from, to);
+            return historicalPricesCache.get(cacheKey);
+        }
+
         log.info("Fetching historical prices for symbol: {}, from: {}, to: {}", symbol, from, to);
         String url = UriComponentsBuilder
             .fromUriString(fmpConfig.getBaseUrl())
@@ -48,7 +62,7 @@ public class FinancialDataService {
         }
 
         log.info("Successfully retrieved {} price points for symbol: {}", response.getPrices().size(), symbol);
-
+        historicalPricesCache.put(cacheKey, response.getPrices());
         return response.getPrices();
     }
 

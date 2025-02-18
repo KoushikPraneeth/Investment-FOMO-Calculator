@@ -30,12 +30,8 @@ interface PriceDataPoint {
 }
 
 interface InvestmentChartProps {
-  mainData?: PriceDataPoint[];
-  comparisonData?: PriceDataPoint[];
-  mainLabel?: string;
-  comparisonLabel?: string;
-  entryDate?: Date;
-  exitDate?: Date;
+  mainData: PriceDataPoint[];
+  mainLabel: string;
 }
 
 const sortByDate = (data: PriceDataPoint[]) => {
@@ -44,11 +40,7 @@ const sortByDate = (data: PriceDataPoint[]) => {
 
 export const InvestmentChart: React.FC<InvestmentChartProps> = ({
   mainData = [],
-  comparisonData,
   mainLabel = 'Asset Price',
-  comparisonLabel = 'Comparison Asset',
-  entryDate,
-  exitDate,
 }) => {
   const formatDate = (dateString: string) => {
     return format(parseISO(dateString), 'MMM d, yyyy');
@@ -56,7 +48,6 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
 
   // Sort data chronologically
   const sortedMainData = sortByDate(mainData);
-  const sortedComparisonData = comparisonData ? sortByDate(comparisonData) : undefined;
 
   const chartData = {
     labels: sortedMainData.map(d => formatDate(d.date)),
@@ -67,14 +58,7 @@ export const InvestmentChart: React.FC<InvestmentChartProps> = ({
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
         tension: 0.1,
-      },
-      ...(sortedComparisonData ? [{
-        label: comparisonLabel,
-        data: sortedComparisonData.map(d => d.price),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        tension: 0.1,
-      }] : []),
+      }
     ],
   };
 

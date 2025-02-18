@@ -7,7 +7,6 @@ import { InvestmentChart } from './InvestmentChart';
 
 interface ResultsDisplayProps {
   results: InvestmentResult | null;
-  comparisonResults?: InvestmentResult | null;
 }
 
 const SingleResultDisplay: React.FC<{ result: InvestmentResult; title?: string }> = ({ result, title }) => {
@@ -55,7 +54,11 @@ const SingleResultDisplay: React.FC<{ result: InvestmentResult; title?: string }
                 <TrendingDown className="w-8 h-8 text-red-500" />
               )}
               <span className={`text-2xl font-bold ${isProfit ? 'text-green-500' : 'text-red-500'}`}>
-                {isProfit ? 'Profit' : 'Loss'}
+                {
+                  result.profitLoss > 0 ? 'Cha-ching! Your Imaginary Riches 🤑' : 
+                  result.profitLoss < 0 ? 'Oops, Your Wallet Just Cried a Little 💸' : 
+                  'Meh. You Could’ve Just Buried Cash in the Backyard 🌳'
+                }
               </span>
             </div>
             
@@ -73,39 +76,24 @@ const SingleResultDisplay: React.FC<{ result: InvestmentResult; title?: string }
   );
 };
 
-export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, comparisonResults }) => {
+export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
   if (!results) return null;
 
   return (
     <div className="space-y-6">
-      {comparisonResults ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <SingleResultDisplay result={results} title="Investment 1" />
-          <SingleResultDisplay result={comparisonResults} title="Investment 2" />
-        </div>
-      ) : (
-        <SingleResultDisplay result={results} />
-      )}
-
+      <SingleResultDisplay result={results} />
       <InvestmentChart
         mainData={results.historicalPrices}
-        comparisonData={comparisonResults?.historicalPrices}
         mainLabel={results.assetName}
-        comparisonLabel={comparisonResults?.assetName}
       />
-
-      {!comparisonResults && (
-        <>
-          <PainScaleVisualizer profitLoss={results.profitLoss} />
-          <MemeGenerator 
-            investmentResult={{
-              assetName: results.assetName,
-              profitLoss: results.profitLoss,
-              profitLossPercentage: results.profitLossPercentage
-            }} 
-          />
-        </>
-      )}
+      <PainScaleVisualizer profitLoss={results.profitLoss} />
+      <MemeGenerator 
+        investmentResult={{
+          assetName: results.assetName,
+          profitLoss: results.profitLoss,
+          profitLossPercentage: results.profitLossPercentage
+        }} 
+      />
     </div>
   );
 };
