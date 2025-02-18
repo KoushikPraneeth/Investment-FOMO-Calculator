@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import Profile from "./pages/Profile";
-import CompareAssets from "./pages/CompareAssets";
+import AssetBattleRoyale from "./pages/AssetBattleRoyale";
 import { AuthGuard } from "./components/AuthGuard";
 import { AssetDropdown } from "./components/AssetDropdown";
 import { DateRangePicker } from "./components/DateRangePicker";
@@ -101,10 +101,10 @@ function Dashboard() {
             </div>
             <div className="flex items-center space-x-4">
               <Link
-                to="/compare-assets"
+                to="/asset-battle-royale"
                 className="text-charcoal hover:text-charcoal-dark"
               >
-                Compare Assets
+                Asset Battle Royale
               </Link>
               <Link
                 to="/profile"
@@ -292,10 +292,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route
-          path="/compare-assets"
+          path="/asset-battle-royale"
           element={
             <AuthGuard>
-              <CompareAssets />
+              <AssetBattleRoyale />
             </AuthGuard>
           }
         />
