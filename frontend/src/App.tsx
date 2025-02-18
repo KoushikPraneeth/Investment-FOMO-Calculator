@@ -14,7 +14,7 @@ import {
   Calculator,
   LogOut,
   Coffee,
-  Stethoscope,
+  Coins,
   ChevronDown,
   DollarSign,
 } from "lucide-react";
@@ -34,7 +34,7 @@ function Dashboard() {
   const [lattesPerWeek, setLattesPerWeek] = useState(0);
   const [medicalProcedures, setMedicalProcedures] = useState(0);
   const LATTE_PRICE = 5; // $5 per latte
-  const MEDICAL_VALUE = 10000; // $10,000 per "procedure" 😅
+  const MEDICAL_VALUE = 10000; // $10,000 per "procedure"
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -202,12 +202,12 @@ function Dashboard() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                      <Stethoscope className="h-5 w-5 text-charcoal mr-2" />
+                      <Coins className="h-5 w-5 text-charcoal mr-2" />
                       <label
                         htmlFor="medical-slider"
                         className="text-sm font-medium text-charcoal"
                       >
-                        Medical "Procedures" 😉
+                        Missed Tesla for Medical Co-pay 😉
                       </label>
                     </div>
                     <span className="text-sm text-charcoal">
@@ -222,9 +222,9 @@ function Dashboard() {
                     onChange={setMedicalProcedures}
                   />
                   <div className="text-xs text-charcoal-light mt-1 flex justify-between">
-                    <span>Current: {medicalProcedures} procedures</span>
+                    <span>Current: {medicalProcedures} co-pays</span>
                     <span className="italic">
-                      (Hypothetically, of course 😅)
+                      (Could've been Tesla shares...)
                     </span>
                   </div>
                 </div>

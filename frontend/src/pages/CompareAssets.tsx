@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { AssetDropdown } from "../components/AssetDropdown";
 import { DateRangePicker } from "../components/DateRangePicker";
 import { AmountInput } from "../components/AmountInput";
 import { ResultsDisplay } from "../components/ResultsDisplay";
 import { fetchInvestmentData, type InvestmentResult } from "../services/api";
-import { Calculator } from "lucide-react";
+import { Calculator, ArrowLeft } from "lucide-react";
 
 export const CompareAssets = () => {
   const [asset1, setAsset1] = useState("");
@@ -72,13 +73,20 @@ export const CompareAssets = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-warm-gray-light">
+      <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <Link
+          to="/"
+          className="inline-flex items-center px-4 py-2 mb-6 text-sm font-medium rounded-md text-charcoal hover:text-charcoal-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-accent"
+        >
+          <ArrowLeft className="h-5 w-5 mr-2" />
+          Back to Dashboard
+        </Link>
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+          <h1 className="text-3xl font-bold text-charcoal-dark sm:text-4xl">
             Compare Assets
           </h1>
-          <p className="mt-3 text-xl text-gray-500">
+          <p className="mt-3 text-xl text-charcoal">
             Side-by-side comparison of two assets' historical performance
           </p>
         </div>
@@ -87,7 +95,7 @@ export const CompareAssets = () => {
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-charcoal mb-1">
                   Asset 1
                 </label>
                 <AssetDropdown
@@ -96,7 +104,7 @@ export const CompareAssets = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-charcoal mb-1">
                   Asset 2
                 </label>
                 <AssetDropdown
@@ -120,7 +128,7 @@ export const CompareAssets = () => {
             <button
               onClick={handleCalculate}
               disabled={loading}
-              className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-teal-accent hover:bg-teal-accent-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-accent disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span>Calculating...</span>

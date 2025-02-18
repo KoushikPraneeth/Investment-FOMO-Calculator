@@ -13,26 +13,28 @@ details[open] summary .details-toggle {
 
 /* Range Slider Base */
 input[type="range"] {
-  @apply w-full h-2 rounded-lg appearance-none bg-warm-gray-light cursor-pointer;
+  @apply w-full rounded-lg appearance-none bg-warm-gray-light cursor-pointer;
+  height: 10px; /* Slightly thicker track */
   margin: 10px 0;
 }
 
 /* Webkit (Chrome, Safari) */
 input[type="range"]::-webkit-slider-thumb {
   @apply appearance-none;
-  margin-top: -6px;
-  height: 20px;
-  width: 20px;
+  margin-top: -7px; /* Adjust for thicker track */
+  height: 24px;
+  width: 24px;
   border-radius: 50%;
   background: white;
-  border: 2px solid theme("colors.teal.accent");
+  border: 2px solid theme("colors.teal.accent-lighter");
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  @apply w-full h-2 rounded-lg border-0;
+  @apply w-full rounded-lg border-0;
+  height: 10px; /* Match base height */
   background: linear-gradient(
     to right,
     theme("colors.teal.accent") 0%,
@@ -44,18 +46,20 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 /* Firefox */
 input[type="range"]::-moz-range-thumb {
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   border-radius: 50%;
   background: white;
-  border: 2px solid theme("colors.teal.accent");
+  border: 2px solid theme("colors.teal.accent-lighter");
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease;
+  margin-top: -2px;
 }
 
 input[type="range"]::-moz-range-track {
-  @apply w-full h-2 rounded-lg border-0;
+  @apply w-full rounded-lg border-0;
+  height: 10px; /* Match base height */
   background: linear-gradient(
     to right,
     theme("colors.teal.accent") 0%,
@@ -68,12 +72,14 @@ input[type="range"]::-moz-range-track {
 /* Hover states */
 input[type="range"]:hover::-webkit-slider-thumb {
   @apply bg-teal-accent-lighter;
-  transform: scale(1.1);
+  transform: scale(1.08);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 2px 3px rgba(0, 0, 0, 0.15);
 }
 
 input[type="range"]:hover::-moz-range-thumb {
   @apply bg-teal-accent-lighter;
-  transform: scale(1.1);
+  transform: scale(1.08);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 2px 3px rgba(0, 0, 0, 0.15);
 }
 
 /* Focus states */
@@ -82,24 +88,26 @@ input[type="range"]:focus {
 }
 
 input[type="range"]:focus::-webkit-slider-thumb {
-  @apply border-teal-accent-darker;
+  @apply border-teal-accent;
   box-shadow: 0 0 0 3px theme("colors.teal.accent-lighter");
 }
 
 input[type="range"]:focus::-moz-range-thumb {
-  @apply border-teal-accent-darker;
+  @apply border-teal-accent;
   box-shadow: 0 0 0 3px theme("colors.teal.accent-lighter");
 }
 
 /* Active states */
 input[type="range"]:active::-webkit-slider-thumb {
   @apply bg-teal-accent-lighter;
-  transform: scale(1.2);
+  transform: scale(1.12);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 input[type="range"]:active::-moz-range-thumb {
   @apply bg-teal-accent-lighter;
-  transform: scale(1.2);
+  transform: scale(1.12);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* Transition for details summary */
