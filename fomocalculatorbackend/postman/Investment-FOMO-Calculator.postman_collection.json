@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "b8d2e3f4-5c6d-4e7f-8a9b-0c1d2e3f4a5b",
+		"name": "Investment FOMO Calculator",
+		"description": "API collection for testing the Investment FOMO Calculator backend endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Investment Calculation",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "http://localhost:8080/api/calculate?symbol=BTC&entryDate=2020-01-01&exitDate=2021-01-01&amount=10000",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "calculate"],
+					"query": [
+						{
+							"key": "symbol",
+							"value": "BTC"
+						},
+						{
+							"key": "entryDate",
+							"value": "2020-01-01"
+						},
+						{
+							"key": "exitDate",
+							"value": "2021-01-01"
+						},
+						{
+							"key": "amount",
+							"value": "10000"
+						}
+					]
+				},
+				"description": "Calculate investment returns for a single asset"
+			}
+		},
+		{
+			"name": "Get All Comparison Scenarios",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "http://localhost:8080/api/comparisons",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "comparisons"]
+				},
+				"description": "Retrieve all available comparison scenarios"
+			}
+		},
+		{
+			"name": "Get Comparison Scenario by ID",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "http://localhost:8080/api/comparisons/btc-vs-sp500",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "comparisons", "btc-vs-sp500"]
+				},
+				"description": "Retrieve a specific comparison scenario by ID"
+			}
+		},
+		{
+			"name": "Calculate Comparison",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "http://localhost:8080/api/comparisons/calculate?scenarioId=btc-vs-sp500&entryDate=2020-01-01&exitDate=2021-01-01&amount=10000",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "comparisons", "calculate"],
+					"query": [
+						{
+							"key": "scenarioId",
+							"value": "btc-vs-sp500"
+						},
+						{
+							"key": "entryDate",
+							"value": "2020-01-01"
+						},
+						{
+							"key": "exitDate",
+							"value": "2021-01-01"
+						},
+						{
+							"key": "amount",
+							"value": "10000"
+						}
+					]
+				},
+				"description": "Calculate investment returns for a comparison scenario"
+			}
+		},
+		{
+			"name": "Generate Meme",
+			"request": {
+				"method": "POST",
+				"url": {
+					"raw": "http://localhost:8080/api/memes/generate",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "memes", "generate"]
+				},
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"assetName\": \"Bitcoin\",\n    \"profitLoss\": 50000.0,\n    \"profitLossPercentage\": 125.0\n}"
+				},
+				"description": "Generate a FOMO meme based on investment results"
+			}
+		}
+	]
+}
