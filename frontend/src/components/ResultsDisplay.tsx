@@ -1,12 +1,19 @@
 import React from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import type { InvestmentResult } from "../services/api";
+import { FOMOChatbot } from './FOMOChatbot';
 import { PainScaleVisualizer } from "./PainScaleVisualizer";
 import { MemeGenerator } from "./MemeGenerator";
 import { InvestmentChart } from "./InvestmentChart";
+import { TimeTravelersJournal } from "./TimeTravelersJournal";
+import { OpportunityDisplay } from "./OpportunityDisplay";
 
 interface ResultsDisplayProps {
   results: InvestmentResult | null;
+  assetSymbol?: string;
+  amount?: string;
+  entryDate?: Date;
+  exitDate?: Date;
 }
 
 const SingleResultDisplay: React.FC<{
@@ -67,7 +74,7 @@ const SingleResultDisplay: React.FC<{
                   ? "Cha-ching! Your Imaginary Riches 🤑"
                   : result.profitLoss < 0
                   ? "Oops, Your Wallet Just Cried a Little 💸"
-                  : "Meh. You Could’ve Just Buried Cash in the Backyard 🌳"}
+                  : "Meh. You Could've Just Buried Cash in the Backyard 🌳"}
               </span>
             </div>
 
@@ -93,7 +100,13 @@ const SingleResultDisplay: React.FC<{
   );
 };
 
-export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
+export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
+  results,
+  assetSymbol = "",
+  amount = "0",
+  entryDate,
+  exitDate,
+}) => {
   if (!results) return null;
 
   return (
@@ -103,6 +116,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
         mainData={results.historicalPrices}
         mainLabel={results.assetName}
       />
+      {results && <OpportunityDisplay profitLoss={results.profitLoss} />}
       <PainScaleVisualizer profitLoss={results.profitLoss} />
       <MemeGenerator
         investmentResult={{
@@ -111,6 +125,16 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
           profitLossPercentage: results.profitLossPercentage,
         }}
       />
+      {entryDate && exitDate && (
+        <TimeTravelersJournal
+          results={results}
+          assetSymbol={assetSymbol}
+          amount={amount}
+          entryDate={entryDate}
+          exitDate={exitDate}
+        />
+      )}
+      <FOMOChatbot results={results} assetSymbol={assetSymbol}/>
     </div>
   );
 };

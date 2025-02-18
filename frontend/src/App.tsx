@@ -266,7 +266,15 @@ function Dashboard() {
           </div>
         </div>
 
-        {results && <ResultsDisplay results={results} />}
+        {results && (
+          <ResultsDisplay 
+            results={results}
+            assetSymbol={selectedAsset}
+            amount={amount}
+            entryDate={entryDate || undefined}
+            exitDate={exitDate || undefined}
+          />
+        )}
         <footer className="text-center text-charcoal-light mt-4 text-xs">
           Not financial advice. We're just here to make you cry over
           hypotheticals. Consult a therapist (or a cat) before making real

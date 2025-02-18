@@ -144,8 +144,24 @@ export const CompareAssets = () => {
 
         {(asset1Results || asset2Results) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {asset1Results && <ResultsDisplay results={asset1Results} />}
-            {asset2Results && <ResultsDisplay results={asset2Results} />}
+            {asset1Results && (
+              <ResultsDisplay
+                results={asset1Results}
+                assetSymbol={asset1}
+                amount={amount}
+                entryDate={entryDate || undefined}
+                exitDate={exitDate || undefined}
+              />
+            )}
+            {asset2Results && (
+              <ResultsDisplay
+                results={asset2Results}
+                assetSymbol={asset2}
+                amount={amount}
+                entryDate={entryDate || undefined}
+                exitDate={exitDate || undefined}
+              />
+            )}
           </div>
         )}
       </div>

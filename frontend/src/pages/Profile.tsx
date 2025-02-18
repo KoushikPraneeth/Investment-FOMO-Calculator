@@ -1,17 +1,23 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
-import { LogOut, Dice6, Check, ArrowLeft } from "lucide-react";
+import { LogOut, Dice6, Check, ArrowLeft, Trash2 } from "lucide-react";
 import { getRandomUsername } from "../lib/usernames";
 import { Toast } from "../components/Toast";
+import { DeleteAccountModal } from "../components/DeleteAccountModal";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [user, setUser] = React.useState<any>(null);
   const [username, setUsername] = useState("");
   const [isUsernameSaved, setIsUsernameSaved] = useState(false);
   const [isSavingUsername, setIsSavingUsername] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState<"success" | "error">("success");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   React.useEffect(() => {
     const getUser = async () => {
@@ -33,6 +39,12 @@ const Profile = () => {
     getUser();
   }, []);
 
+  const showNotification = (message: string, type: "success" | "error") => {
+    setToastMessage(message);
+    setToastType(type);
+    setShowToast(true);
+  };
+
   const saveUsername = async () => {
     setIsSavingUsername(true);
     setError("");
@@ -42,11 +54,30 @@ const Profile = () => {
       });
       if (updateError) throw updateError;
       setIsUsernameSaved(true);
-      setShowToast(true);
+      showNotification("Username saved! You can't change it anymore.", "success");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save username");
+      showNotification("Failed to save username", "error");
     } finally {
       setIsSavingUsername(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    setIsDeleting(true);
+    try {
+      const { error } = await supabase.auth.admin.deleteUser(user.id);
+      if (error) throw error;
+      
+      await supabase.auth.signOut();
+      showNotification("Account deleted successfully", "success");
+      navigate("/login");
+    } catch (err) {
+      setIsDeleting(false);
+      showNotification(
+        err instanceof Error ? err.message : "Failed to delete account",
+        "error"
+      );
     }
   };
 
@@ -57,10 +88,10 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-warm-gray-light py-8 px-4 sm:px-6 lg:px-8">
       <Toast
-        message="Username saved! You can't change it anymore."
+        message={toastMessage}
         isVisible={showToast}
         onClose={() => setShowToast(false)}
-        type="success"
+        type={toastType}
       />
       <div className="max-w-3xl mx-auto">
         <Link
@@ -109,13 +140,22 @@ const Profile = () => {
                   )}
                 </div>
                 <p className="text-charcoal">Email: {user.email}</p>
-                <button
-                  onClick={handleSignOut}
-                  className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                >
-                  <LogOut className="h-5 w-5 mr-2" />
-                  Sign out
-                </button>
+                <div className="pt-4 border-t border-gray-200 flex flex-col gap-3">
+                  <button
+                    onClick={handleSignOut}
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  >
+                    <LogOut className="h-5 w-5 mr-2" />
+                    Sign out
+                  </button>
+                  <button
+                    onClick={() => setShowDeleteModal(true)}
+                    className="inline-flex items-center px-4 py-2 border border-red-600 text-sm font-medium rounded-md text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  >
+                    <Trash2 className="h-5 w-5 mr-2" />
+                    Delete Account
+                  </button>
+                </div>
               </div>
             )}
             {!user && (
@@ -124,6 +164,16 @@ const Profile = () => {
           </div>
         </div>
       </div>
+
+      {user && (
+        <DeleteAccountModal
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleDeleteAccount}
+          userEmail={user.email}
+          isDeleting={isDeleting}
+        />
+      )}
     </div>
   );
 };
