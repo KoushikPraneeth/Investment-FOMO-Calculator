@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent } from "react";
 
 export interface ComparisonScenario {
   id: string;
@@ -10,23 +10,23 @@ export interface ComparisonScenario {
 // Mock comparison scenarios
 const mockComparisons: ComparisonScenario[] = [
   {
-    id: 'btc-vs-sp500',
-    label: 'Bitcoin vs S&P 500',
-    asset1: 'BTC',
-    asset2: 'SPY'
+    id: "btc-vs-sp500",
+    label: "Bitcoin vs S&P 500",
+    asset1: "BTC",
+    asset2: "SPY",
   },
   {
-    id: 'eth-vs-tesla',
-    label: 'Ethereum vs Tesla',
-    asset1: 'ETH',
-    asset2: 'TSLA'
+    id: "eth-vs-tesla",
+    label: "Ethereum vs Tesla",
+    asset1: "ETH",
+    asset2: "TSLA",
   },
   {
-    id: 'btc-vs-gold',
-    label: 'Bitcoin vs Gold',
-    asset1: 'BTC',
-    asset2: 'GLD'
-  }
+    id: "btc-vs-gold",
+    label: "Bitcoin vs Gold",
+    asset1: "BTC",
+    asset2: "GLD",
+  },
 ];
 
 interface ComparisonSelectorProps {
@@ -34,15 +34,20 @@ interface ComparisonSelectorProps {
   onComparisonChange: (comparisonId: string | null) => void;
 }
 
-export function ComparisonSelector({ selectedComparison, onComparisonChange }: ComparisonSelectorProps) {
+export function ComparisonSelector({
+  selectedComparison,
+  onComparisonChange,
+}: ComparisonSelectorProps) {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">
         Compare Against
       </label>
       <select
-        value={selectedComparison || ''}
-        onChange={(e: ChangeEvent<HTMLSelectElement>) => onComparisonChange(e.target.value || null)}
+        value={selectedComparison || ""}
+        onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+          onComparisonChange(e.target.value || null)
+        }
         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
       >
         <option value="">Select comparison</option>
