@@ -1,42 +1,46 @@
-import React, { useState } from 'react';
-import { AssetDropdown } from '../components/AssetDropdown';
-import { DateRangePicker } from '../components/DateRangePicker';
-import { AmountInput } from '../components/AmountInput';
-import { ResultsDisplay } from '../components/ResultsDisplay';
-import { fetchInvestmentData, type InvestmentResult } from '../services/api';
-import { Calculator } from 'lucide-react';
+import React, { useState } from "react";
+import { AssetDropdown } from "../components/AssetDropdown";
+import { DateRangePicker } from "../components/DateRangePicker";
+import { AmountInput } from "../components/AmountInput";
+import { ResultsDisplay } from "../components/ResultsDisplay";
+import { fetchInvestmentData, type InvestmentResult } from "../services/api";
+import { Calculator } from "lucide-react";
 
 export const CompareAssets = () => {
-  const [asset1, setAsset1] = useState('');
-  const [asset2, setAsset2] = useState('');
+  const [asset1, setAsset1] = useState("");
+  const [asset2, setAsset2] = useState("");
   const [entryDate, setEntryDate] = useState<Date | null>(null);
   const [exitDate, setExitDate] = useState<Date | null>(null);
-  const [amount, setAmount] = useState('');
-  const [asset1Results, setAsset1Results] = useState<InvestmentResult | null>(null);
-  const [asset2Results, setAsset2Results] = useState<InvestmentResult | null>(null);
+  const [amount, setAmount] = useState("");
+  const [asset1Results, setAsset1Results] = useState<InvestmentResult | null>(
+    null
+  );
+  const [asset2Results, setAsset2Results] = useState<InvestmentResult | null>(
+    null
+  );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleCalculate = async () => {
     setError(null);
-    
+
     if (!asset1 || !asset2) {
-      setError('Please select both assets to compare');
+      setError("Please select both assets to compare");
       return;
     }
     if (!entryDate) {
-      setError('Please select an entry date');
+      setError("Please select an entry date");
       return;
     }
     if (!exitDate) {
-      setError('Please select an exit date');
+      setError("Please select an exit date");
       return;
     }
     if (!amount || parseFloat(amount) <= 0) {
       if (parseFloat(amount) === 0) {
         setError("Bold strategy, let's see how it plays out 🧐");
       } else {
-        setError('Please enter a valid investment amount');
+        setError("Please enter a valid investment amount");
       }
       return;
     }
@@ -48,20 +52,20 @@ export const CompareAssets = () => {
           assetSymbol: asset1,
           entryDate,
           exitDate,
-          investmentAmount: parseFloat(amount)
+          investmentAmount: parseFloat(amount),
         }),
         fetchInvestmentData({
           assetSymbol: asset2,
           entryDate,
           exitDate,
-          investmentAmount: parseFloat(amount)
-        })
+          investmentAmount: parseFloat(amount),
+        }),
       ]);
-      
+
       setAsset1Results(asset1Data);
       setAsset2Results(asset2Data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -109,16 +113,9 @@ export const CompareAssets = () => {
               onExitDateChange={setExitDate}
             />
 
-            <AmountInput
-              amount={amount}
-              onAmountChange={setAmount}
-            />
+            <AmountInput amount={amount} onAmountChange={setAmount} />
 
-            {error && (
-              <div className="text-red-500 text-sm mt-2">
-                {error}
-              </div>
-            )}
+            {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
 
             <button
               onClick={handleCalculate}
@@ -139,12 +136,8 @@ export const CompareAssets = () => {
 
         {(asset1Results || asset2Results) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {asset1Results && (
-              <ResultsDisplay results={asset1Results} />
-            )}
-            {asset2Results && (
-              <ResultsDisplay results={asset2Results} />
-            )}
+            {asset1Results && <ResultsDisplay results={asset1Results} />}
+            {asset2Results && <ResultsDisplay results={asset2Results} />}
           </div>
         )}
       </div>

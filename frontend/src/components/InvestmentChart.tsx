@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,10 +8,10 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartOptions
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import { format, parseISO } from 'date-fns';
+  ChartOptions,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+import { format, parseISO } from "date-fns";
 
 // Register ChartJS components
 ChartJS.register(
@@ -35,42 +35,44 @@ interface InvestmentChartProps {
 }
 
 const sortByDate = (data: PriceDataPoint[]) => {
-  return [...data].sort((a, b) => parseISO(a.date).getTime() - parseISO(b.date).getTime());
+  return [...data].sort(
+    (a, b) => parseISO(a.date).getTime() - parseISO(b.date).getTime()
+  );
 };
 
 export const InvestmentChart: React.FC<InvestmentChartProps> = ({
   mainData = [],
-  mainLabel = 'Asset Price',
+  mainLabel = "Asset Price",
 }) => {
   const formatDate = (dateString: string) => {
-    return format(parseISO(dateString), 'MMM d, yyyy');
+    return format(parseISO(dateString), "MMM d, yyyy");
   };
 
   // Sort data chronologically
   const sortedMainData = sortByDate(mainData);
 
   const chartData = {
-    labels: sortedMainData.map(d => formatDate(d.date)),
+    labels: sortedMainData.map((d) => formatDate(d.date)),
     datasets: [
       {
         label: mainLabel,
-        data: sortedMainData.map(d => d.price),
-        borderColor: 'rgb(75, 192, 192)',
-        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        data: sortedMainData.map((d) => d.price),
+        borderColor: "rgb(75, 192, 192)",
+        backgroundColor: "rgba(75, 192, 192, 0.5)",
         tension: 0.1,
-      }
+      },
     ],
   };
 
-  const options: ChartOptions<'line'> = {
+  const options: ChartOptions<"line"> = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        position: "top" as const,
       },
       title: {
         display: true,
-        text: 'Investment Price History',
+        text: "Investment Price History",
       },
       tooltip: {
         callbacks: {

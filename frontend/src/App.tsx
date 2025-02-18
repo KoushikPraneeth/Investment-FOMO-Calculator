@@ -78,7 +78,10 @@ function Dashboard() {
               </Link>
             </div>
             <div className="flex items-center space-x-4">
-              <Link to="/compare-assets" className="text-gray-500 hover:text-gray-700">
+              <Link
+                to="/compare-assets"
+                className="text-gray-500 hover:text-gray-700"
+              >
                 Compare Assets
               </Link>
               <Link to="/profile" className="text-gray-500 hover:text-gray-700">
@@ -166,8 +169,22 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/compare-assets" element={<AuthGuard><CompareAssets /></AuthGuard>} />
-        <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
+        <Route
+          path="/compare-assets"
+          element={
+            <AuthGuard>
+              <CompareAssets />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <AuthGuard>
+              <Profile />
+            </AuthGuard>
+          }
+        />
         <Route
           path="/"
           element={

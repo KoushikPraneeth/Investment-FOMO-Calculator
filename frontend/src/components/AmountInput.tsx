@@ -1,5 +1,5 @@
-import React from 'react';
-import { DollarSign } from 'lucide-react';
+import React from "react";
+import { DollarSign } from "lucide-react";
 
 interface AmountInputProps {
   amount: string;
@@ -12,7 +12,7 @@ export const AmountInput: React.FC<AmountInputProps> = ({
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value === '' || /^\d*\.?\d*$/.test(value)) {
+    if (value === "" || /^\d*\.?\d*$/.test(value)) {
       onAmountChange(value);
     }
   };
