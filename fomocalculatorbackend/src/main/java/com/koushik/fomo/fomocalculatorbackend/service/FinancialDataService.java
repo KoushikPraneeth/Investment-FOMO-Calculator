@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.koushik.fomo.fomocalculatorbackend.model.fmp.FmpHistoricalResponse;
 import com.koushik.fomo.fomocalculatorbackend.model.fmp.FmpHistoricalPrice;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,8 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -23,21 +22,10 @@ public class FinancialDataService {
     private final RestTemplate restTemplate;
     private final FmpConfig fmpConfig;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private final Map<String, List<FmpHistoricalPrice>> historicalPricesCache = new HashMap<>();
 
-    private String generateCacheKey(String symbol, LocalDate from, LocalDate to) {
-        return symbol + "_" + from.format(DATE_FORMATTER) + "_" + to.format(DATE_FORMATTER);
-    }
-
+    @Cacheable(value = "historicalPrices", key = "#symbol + '_' + #from.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd')) + '_' + #to.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd'))")
     public List<FmpHistoricalPrice> getHistoricalPrices(String symbol, LocalDate from, LocalDate to) {
-        String cacheKey = generateCacheKey(symbol, from, to);
-
-        if (historicalPricesCache.containsKey(cacheKey)) {
-            log.info("Cache hit for symbol: {}, from: {}, to: {}", symbol, from, to);
-            return historicalPricesCache.get(cacheKey);
-        }
-
-        log.info("Fetching historical prices for symbol: {}, from: {}, to: {}", symbol, from, to);
+        log.info("Cache miss - Fetching historical prices for symbol: {}, from: {}, to: {}", symbol, from, to);
         String url = UriComponentsBuilder
             .fromUriString(fmpConfig.getBaseUrl())
             .path("/historical-price-full/{symbol}")
@@ -62,15 +50,16 @@ public class FinancialDataService {
         }
 
         log.info("Successfully retrieved {} price points for symbol: {}", response.getPrices().size(), symbol);
-        historicalPricesCache.put(cacheKey, response.getPrices());
         return response.getPrices();
     }
 
+    @Cacheable(value = "priceForDate", key = "#symbol + '_' + #date.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd'))")
     public FmpHistoricalPrice getPriceForDate(String symbol, LocalDate date) {
         List<FmpHistoricalPrice> prices = getHistoricalPrices(symbol, date, date);
         return prices.get(0);
     }
 
+    @Cacheable(value = "closestPrice", key = "#symbol + '_' + #date.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd'))")
     public double getClosestPrice(String symbol, LocalDate date) {
         // Get prices for a window around the target date to handle non-trading days
         LocalDate startDate = date.minusDays(5);
