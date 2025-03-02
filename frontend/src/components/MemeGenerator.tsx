@@ -57,12 +57,12 @@ export const MemeGenerator: React.FC<MemeGeneratorProps> = ({ investmentResult }
   };
 
   return (
-    <div className="mt-8 bg-white rounded-lg shadow-lg p-6">
+    <div className="mt-8 bg-white dark:bg-dark-bg-secondary rounded-lg shadow-lg p-6 transition-colors duration-300">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-gray-800">
+        <h3 className="text-xl font-semibold text-gray-800 dark:text-dark-text-primary">
           Immortalize Your {investmentResult.profitLoss >= 0 ? 'Success' : 'Regret'} with a Meme
         </h3>
-        <p className="text-gray-600 mt-2">
+        <p className="text-gray-600 dark:text-dark-text-secondary mt-2">
           Generate a shareable meme to capture this moment
         </p>
       </div>
@@ -71,7 +71,7 @@ export const MemeGenerator: React.FC<MemeGeneratorProps> = ({ investmentResult }
         <button
           onClick={handleGenerateMeme}
           disabled={isGenerating}
-          className="w-full py-3 px-4 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          className="w-full py-3 px-4 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-dark-bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
         >
           {isGenerating ? (
             <span className="flex items-center justify-center">
@@ -86,7 +86,7 @@ export const MemeGenerator: React.FC<MemeGeneratorProps> = ({ investmentResult }
 
       {memeUrl && (
         <div className="space-y-4">
-          <div className="relative rounded-lg overflow-hidden bg-gray-100">
+          <div className="relative rounded-lg overflow-hidden bg-gray-100 dark:bg-dark-bg-tertiary">
             <img
               src={memeUrl}
               alt="Generated meme"
@@ -97,7 +97,7 @@ export const MemeGenerator: React.FC<MemeGeneratorProps> = ({ investmentResult }
           <div className="flex gap-4">
             <button
               onClick={handleDownload}
-              className="flex-1 py-2 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center"
+              className="flex-1 py-2 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-dark-bg-secondary transition-colors duration-200 flex items-center justify-center"
             >
               <Download className="w-5 h-5 mr-2" />
               Download Meme
@@ -105,7 +105,7 @@ export const MemeGenerator: React.FC<MemeGeneratorProps> = ({ investmentResult }
             
             <button
               onClick={handleShare}
-              className="flex-1 py-2 px-4 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center"
+              className="flex-1 py-2 px-4 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-dark-bg-secondary transition-colors duration-200 flex items-center justify-center"
             >
               <Share2 className="w-5 h-5 mr-2" />
               Share Meme
@@ -114,7 +114,7 @@ export const MemeGenerator: React.FC<MemeGeneratorProps> = ({ investmentResult }
 
           <button
             onClick={handleGenerateMeme}
-            className="w-full py-2 px-4 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200"
+            className="w-full py-2 px-4 bg-gray-200 dark:bg-dark-bg-tertiary text-gray-700 dark:text-dark-text-secondary rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-dark-bg-primary focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-dark-text-secondary focus:ring-offset-2 dark:focus:ring-offset-dark-bg-secondary transition-colors duration-200"
           >
             Generate Another Meme
           </button>

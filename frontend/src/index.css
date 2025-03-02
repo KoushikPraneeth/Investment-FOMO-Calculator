@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Dark mode transitions */
+.dark body {
+  @apply bg-dark-bg-primary text-dark-text-primary;
+}
+
+/* Apply smooth transitions when switching between light and dark modes */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 /* Custom styles for the What-If Scenarios section */
 details > summary {
   list-style: none;

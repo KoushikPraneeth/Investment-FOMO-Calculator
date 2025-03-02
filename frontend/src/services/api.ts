@@ -28,6 +28,13 @@ export interface InvestmentResult {
   historicalPrices: HistoricalPricePoint[];
 }
 
+export interface ScenarioResult {
+  name: string;
+  profitLoss: number;
+  profitLossPercentage: number;
+  historicalPrices: HistoricalPricePoint[];
+}
+
 export const fetchInvestmentData = async (request: InvestmentRequest): Promise<InvestmentResult> => {
   const { assetSymbol, entryDate, exitDate, investmentAmount } = request;
   
@@ -48,4 +55,34 @@ export const fetchInvestmentData = async (request: InvestmentRequest): Promise<I
     }
     throw error;
   }
+};
+
+// Function to generate comparison scenario data based on the original result
+export const generateScenarioData = (originalResult: InvestmentResult, scenarioMultiplier: number, scenarioName: string): ScenarioResult => {
+  // Apply the multiplier to the historical prices to simulate different performance
+  const modifiedPrices = originalResult.historicalPrices.map(point => {
+    // Generate a price that follows the same trend but with the multiplier applied
+    // We'll use a random factor to make it look more realistic
+    const randomFactor = 0.9 + Math.random() * 0.2; // Between 0.9 and 1.1
+    const basePrice = point.price;
+    const trendFactor = scenarioMultiplier * randomFactor;
+    
+    return {
+      date: point.date,
+      price: basePrice * trendFactor
+    };
+  });
+  
+  // Calculate the new profit/loss based on the modified prices
+  const entryPrice = modifiedPrices[0].price;
+  const exitPrice = modifiedPrices[modifiedPrices.length - 1].price;
+  const profitLoss = (exitPrice - entryPrice) * (originalResult.investmentAmount / originalResult.entryPrice);
+  const profitLossPercentage = ((exitPrice - entryPrice) / entryPrice) * 100;
+  
+  return {
+    name: scenarioName,
+    profitLoss,
+    profitLossPercentage,
+    historicalPrices: modifiedPrices
+  };
 };

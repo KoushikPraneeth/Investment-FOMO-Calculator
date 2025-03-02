@@ -85,16 +85,16 @@ export const TimeTravelersJournal: React.FC<TimeTravelersJournalProps> = ({
   };
 
   return (
-    <div className="mt-8 p-6 bg-white rounded-lg shadow-lg">
+    <div className="mt-8 p-6 bg-white dark:bg-dark-bg-secondary rounded-lg shadow-lg transition-colors duration-300">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-bold text-charcoal-dark flex items-center">
-          <Book className="w-6 h-6 mr-2 text-teal-accent" />
+        <h3 className="text-xl font-bold text-charcoal-dark dark:text-dark-text-primary flex items-center">
+          <Book className="w-6 h-6 mr-2 text-teal-accent dark:text-dark-text-accent" />
           Time Traveler's Journal
         </h3>
         {!journalEntry && !isLoading && (
           <button
             onClick={generateJournalEntry}
-            className="px-4 py-2 text-sm font-medium rounded-md text-white bg-teal-accent hover:bg-teal-accent-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-accent"
+            className="px-4 py-2 text-sm font-medium rounded-md text-white bg-teal-accent hover:bg-teal-accent-darker dark:bg-teal-accent-darker dark:hover:bg-teal-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-accent dark:focus:ring-offset-dark-bg-secondary"
           >
             Generate Entry
           </button>
@@ -103,8 +103,8 @@ export const TimeTravelersJournal: React.FC<TimeTravelersJournalProps> = ({
 
       {isLoading && (
         <div className="flex items-center justify-center py-8">
-          <Loader2 className="w-8 h-8 animate-spin text-teal-accent" />
-          <span className="ml-2 text-charcoal">
+          <Loader2 className="w-8 h-8 animate-spin text-teal-accent dark:text-dark-text-accent" />
+          <span className="ml-2 text-charcoal dark:text-dark-text-secondary">
             Traveling through time and space...
           </span>
         </div>
@@ -115,9 +115,9 @@ export const TimeTravelersJournal: React.FC<TimeTravelersJournalProps> = ({
       )}
 
       {journalEntry && (
-        <div className="prose prose-sm max-w-none mt-4">
-          <div className="p-6 bg-warm-gray-lighter rounded-md">
-            <div className="italic text-charcoal whitespace-pre-line">
+        <div className="prose prose-sm dark:prose-invert max-w-none mt-4">
+          <div className="p-6 bg-warm-gray-lighter dark:bg-dark-bg-tertiary rounded-md transition-colors duration-300">
+            <div className="italic text-charcoal dark:text-dark-text-secondary whitespace-pre-line">
               {journalEntry}
             </div>
           </div>

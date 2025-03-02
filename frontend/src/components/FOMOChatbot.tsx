@@ -108,16 +108,16 @@ Respond as a humorous therapist who specializes in investment-related emotional 
   };
 
   return (
-    <div className="mt-8 p-6 bg-white rounded-lg shadow-lg">
+    <div className="mt-8 p-6 bg-white dark:bg-dark-bg-secondary rounded-lg shadow-lg transition-colors duration-300">
       <div className="flex items-center mb-4">
-        <Brain className="w-6 h-6 mr-2 text-teal-accent" />
-        <h3 className="text-xl font-bold text-charcoal-dark">FOMO Therapy</h3>
+        <Brain className="w-6 h-6 mr-2 text-teal-accent dark:text-dark-text-accent" />
+        <h3 className="text-xl font-bold text-charcoal-dark dark:text-dark-text-primary">FOMO Therapy</h3>
       </div>
 
       {/* Chat Display Area */}
       <div
         ref={chatContainerRef}
-        className="bg-warm-gray-lighter rounded-lg p-4 h-64 overflow-y-auto mb-4 space-y-4"
+        className="bg-warm-gray-lighter dark:bg-dark-bg-tertiary rounded-lg p-4 h-64 overflow-y-auto mb-4 space-y-4 transition-colors duration-300"
       >
         {messages.map((msg, idx) => (
           <div
@@ -129,16 +129,16 @@ Respond as a humorous therapist who specializes in investment-related emotional 
             <div
               className={`max-w-[80%] p-3 rounded-lg ${
                 msg.type === "user"
-                  ? "bg-teal-accent text-white"
-                  : "bg-white text-charcoal border border-warm-gray"
+                  ? "bg-teal-accent text-white dark:bg-teal-accent-darker"
+                  : "bg-white dark:bg-dark-bg-primary text-charcoal dark:text-dark-text-secondary border border-warm-gray dark:border-dark-bg-tertiary"
               }`}
             >
               <div className="text-sm whitespace-pre-line">{msg.content}</div>
               <div
                 className={`text-xs mt-1 ${
                   msg.type === "user"
-                    ? "text-teal-accent-lighter"
-                    : "text-charcoal-light"
+                    ? "text-teal-accent-lighter dark:text-teal-accent"
+                    : "text-charcoal-light dark:text-dark-text-secondary"
                 }`}
               >
                 {msg.timestamp.toLocaleTimeString([], {
@@ -150,7 +150,7 @@ Respond as a humorous therapist who specializes in investment-related emotional 
           </div>
         ))}
         {isLoading && (
-          <div className="flex items-center space-x-2 text-charcoal-light">
+          <div className="flex items-center space-x-2 text-charcoal-light dark:text-dark-text-secondary">
             <Loader2 className="w-4 h-4 animate-spin" />
             <span className="text-sm">Your therapist is thinking...</span>
           </div>
@@ -167,13 +167,13 @@ Respond as a humorous therapist who specializes in investment-related emotional 
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           placeholder="Tell me about your investment regrets..."
-          className="flex-1 px-4 py-2 border border-warm-gray rounded-md focus:outline-none focus:ring-2 focus:ring-teal-accent focus:border-transparent"
+          className="flex-1 px-4 py-2 border border-warm-gray dark:border-dark-bg-tertiary dark:bg-dark-bg-primary dark:text-dark-text-primary rounded-md focus:outline-none focus:ring-2 focus:ring-teal-accent dark:focus:ring-dark-text-accent focus:border-transparent"
           disabled={isLoading}
         />
         <button
           type="submit"
           disabled={!inputMessage.trim() || isLoading}
-          className="px-4 py-2 bg-teal-accent text-white rounded-md hover:bg-teal-accent-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-accent disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-teal-accent dark:bg-teal-accent-darker text-white rounded-md hover:bg-teal-accent-darker dark:hover:bg-teal-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-accent dark:focus:ring-offset-dark-bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
         >
           <SendHorizontal className="w-5 h-5" />
         </button>
