@@ -1,6 +1,10 @@
 import React from "react";
 import { Pizza, Plane, Clock } from "lucide-react";
 
+// NOTE: This component appears to be deprecated.
+// Please use OpportunityDisplay.tsx instead which conditionally renders based on profit/loss.
+// This is kept for reference purposes and backward compatibility.
+
 interface SavedDisplayProps {
   profitLoss: number;
 }

@@ -13,9 +13,7 @@ export const AssetBattleRoyale = () => {
   const [entryDate, setEntryDate] = useState<Date | null>(null);
   const [exitDate, setExitDate] = useState<Date | null>(null);
   const [amount, setAmount] = useState("");
-  const [assetResults, setAssetResults] = useState<
-    InvestmentResult[]
-  >([]);
+  const [assetResults, setAssetResults] = useState<InvestmentResult[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 

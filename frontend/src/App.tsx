@@ -267,7 +267,7 @@ function Dashboard() {
         </div>
 
         {results && (
-          <ResultsDisplay 
+          <ResultsDisplay
             results={results}
             assetSymbol={selectedAsset}
             amount={amount}

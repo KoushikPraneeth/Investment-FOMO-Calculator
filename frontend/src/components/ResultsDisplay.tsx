@@ -1,8 +1,7 @@
 import React from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import type { InvestmentResult } from "../services/api";
-import { FOMOChatbot } from './FOMOChatbot';
-import { PainScaleVisualizer } from "./PainScaleVisualizer";
+import { FOMOChatbot } from "./FOMOChatbot";
 import { MemeGenerator } from "./MemeGenerator";
 import { InvestmentChart } from "./InvestmentChart";
 import { TimeTravelersJournal } from "./TimeTravelersJournal";
@@ -117,7 +116,6 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
         mainLabel={results.assetName}
       />
       {results && <OpportunityDisplay profitLoss={results.profitLoss} />}
-      <PainScaleVisualizer profitLoss={results.profitLoss} />
       <MemeGenerator
         investmentResult={{
           assetName: results.assetName,
@@ -134,7 +132,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
           exitDate={exitDate}
         />
       )}
-      <FOMOChatbot results={results} assetSymbol={assetSymbol}/>
+      <FOMOChatbot results={results} assetSymbol={assetSymbol} />
     </div>
   );
 };

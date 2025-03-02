@@ -54,7 +54,10 @@ const Profile = () => {
       });
       if (updateError) throw updateError;
       setIsUsernameSaved(true);
-      showNotification("Username saved! You can't change it anymore.", "success");
+      showNotification(
+        "Username saved! You can't change it anymore.",
+        "success"
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save username");
       showNotification("Failed to save username", "error");
@@ -68,7 +71,7 @@ const Profile = () => {
     try {
       const { error } = await supabase.auth.admin.deleteUser(user.id);
       if (error) throw error;
-      
+
       await supabase.auth.signOut();
       showNotification("Account deleted successfully", "success");
       navigate("/login");

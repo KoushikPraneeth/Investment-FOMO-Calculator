@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
-import { SendHorizontal, Brain, Loader2 } from 'lucide-react';
-import type { InvestmentResult } from '../services/api';
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import { SendHorizontal, Brain, Loader2 } from "lucide-react";
+import type { InvestmentResult } from "../services/api";
 
 interface ChatMessage {
-  type: 'user' | 'bot';
+  type: "user" | "bot";
   content: string;
   timestamp: Date;
 }
@@ -14,22 +14,26 @@ interface FOMOChatbotProps {
   assetSymbol: string;
 }
 
-export const FOMOChatbot: React.FC<FOMOChatbotProps> = ({ results, assetSymbol }) => {
+export const FOMOChatbot: React.FC<FOMOChatbotProps> = ({
+  results,
+  assetSymbol,
+}) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
 
   const cleanResponse = (response: string) => {
     // Remove content between <think> and </think> tags
-    return response.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    return response.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
   };
 
   const generateResponse = async (userMessage: string) => {
@@ -40,23 +44,25 @@ export const FOMOChatbot: React.FC<FOMOChatbotProps> = ({ results, assetSymbol }
       const prompt = `You are a witty, sarcastic investment therapist helping someone cope with investment FOMO. 
       
 Context: The user invested $${results.investmentAmount} in ${assetSymbol} and ${
-        results.profitLoss > 0 ? 'made' : 'lost'
-      } $${Math.abs(results.profitLoss)} (${results.profitLossPercentage.toFixed(2)}%).
+        results.profitLoss > 0 ? "made" : "lost"
+      } $${Math.abs(
+        results.profitLoss
+      )} (${results.profitLossPercentage.toFixed(2)}%).
 
 User's message: "${userMessage}"
 
 Respond as a humorous therapist who specializes in investment-related emotional support. Be witty and sarcastic, but ultimately comforting. Keep it concise (1-2 short paragraphs). Mix in some investing jargon humorously. Make references to common investing memes and themes. Use emojis sparingly but effectively.`;
 
       const response = await axios.post(
-        'https://api.groq.com/openai/v1/chat/completions',
+        "https://api.groq.com/openai/v1/chat/completions",
         {
           messages: [
             {
-              role: 'user',
+              role: "user",
               content: prompt,
             },
           ],
-          model: 'deepseek-r1-distill-llama-70b',
+          model: "deepseek-r1-distill-llama-70b",
           temperature: 0.8,
           max_completion_tokens: 4096,
           top_p: 0.95,
@@ -65,20 +71,24 @@ Respond as a humorous therapist who specializes in investment-related emotional 
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
           },
         }
       );
 
-      const botResponse = cleanResponse(response.data.choices[0].message.content);
+      const botResponse = cleanResponse(
+        response.data.choices[0].message.content
+      );
       setMessages((prev) => [
         ...prev,
-        { type: 'bot', content: botResponse, timestamp: new Date() },
+        { type: "bot", content: botResponse, timestamp: new Date() },
       ]);
     } catch (err) {
-      setError('Sorry, your therapist is having an existential crisis. Try again? 🤔');
-      console.error('Groq API Error:', err);
+      setError(
+        "Sorry, your therapist is having an existential crisis. Try again? 🤔"
+      );
+      console.error("Groq API Error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -89,8 +99,11 @@ Respond as a humorous therapist who specializes in investment-related emotional 
     if (!inputMessage.trim() || isLoading) return;
 
     const message = inputMessage.trim();
-    setInputMessage('');
-    setMessages((prev) => [...prev, { type: 'user', content: message, timestamp: new Date() }]);
+    setInputMessage("");
+    setMessages((prev) => [
+      ...prev,
+      { type: "user", content: message, timestamp: new Date() },
+    ]);
     await generateResponse(message);
   };
 
@@ -109,24 +122,28 @@ Respond as a humorous therapist who specializes in investment-related emotional 
         {messages.map((msg, idx) => (
           <div
             key={idx}
-            className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
+            className={`flex ${
+              msg.type === "user" ? "justify-end" : "justify-start"
+            }`}
           >
             <div
               className={`max-w-[80%] p-3 rounded-lg ${
-                msg.type === 'user'
-                  ? 'bg-teal-accent text-white'
-                  : 'bg-white text-charcoal border border-warm-gray'
+                msg.type === "user"
+                  ? "bg-teal-accent text-white"
+                  : "bg-white text-charcoal border border-warm-gray"
               }`}
             >
               <div className="text-sm whitespace-pre-line">{msg.content}</div>
               <div
                 className={`text-xs mt-1 ${
-                  msg.type === 'user' ? 'text-teal-accent-lighter' : 'text-charcoal-light'
+                  msg.type === "user"
+                    ? "text-teal-accent-lighter"
+                    : "text-charcoal-light"
                 }`}
               >
                 {msg.timestamp.toLocaleTimeString([], {
-                  hour: '2-digit',
-                  minute: '2-digit',
+                  hour: "2-digit",
+                  minute: "2-digit",
                 })}
               </div>
             </div>
@@ -138,7 +155,9 @@ Respond as a humorous therapist who specializes in investment-related emotional 
             <span className="text-sm">Your therapist is thinking...</span>
           </div>
         )}
-        {error && <div className="text-red-500 text-sm text-center">{error}</div>}
+        {error && (
+          <div className="text-red-500 text-sm text-center">{error}</div>
+        )}
       </div>
 
       {/* Input Area */}

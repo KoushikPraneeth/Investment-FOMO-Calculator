@@ -21,6 +21,7 @@ export const OpportunityDisplay: React.FC<OpportunityDisplayProps> = ({
   const vacationCount = Math.floor(absValue / VACATION_COST);
   const retirementYears = Math.floor(absValue / RETIREMENT_SAVINGS_NEEDED);
 
+  // Only render one section based on whether there's a profit or loss
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
       <h3 className="text-xl font-bold text-charcoal-dark mb-4">
@@ -32,8 +33,8 @@ export const OpportunityDisplay: React.FC<OpportunityDisplayProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Pizza Counter */}
         <div className="text-center">
-          <div className="bg-warm-gray-lighter rounded-lg p-4">
-            <Pizza className="w-8 h-8 mx-auto mb-2 text-teal-accent" />
+          <div className={`bg-warm-gray-lighter rounded-lg p-4 ${isProfit ? 'bg-orange-50' : ''}`}>
+            <Pizza className={`w-8 h-8 mx-auto mb-2 ${isProfit ? 'text-orange-500' : 'text-teal-accent'}`} />
             <p className="text-3xl font-bold text-charcoal-dark mb-2">
               {pizzaCount}
             </p>
@@ -50,8 +51,8 @@ export const OpportunityDisplay: React.FC<OpportunityDisplayProps> = ({
 
         {/* Vacation Counter */}
         <div className="text-center">
-          <div className="bg-warm-gray-lighter rounded-lg p-4">
-            <Plane className="w-8 h-8 mx-auto mb-2 text-teal-accent" />
+          <div className={`bg-warm-gray-lighter rounded-lg p-4 ${isProfit ? 'bg-blue-50' : ''}`}>
+            <Plane className={`w-8 h-8 mx-auto mb-2 ${isProfit ? 'text-blue-500' : 'text-teal-accent'}`} />
             <p className="text-3xl font-bold text-charcoal-dark mb-2">
               {vacationCount}
             </p>
@@ -68,8 +69,8 @@ export const OpportunityDisplay: React.FC<OpportunityDisplayProps> = ({
 
         {/* Retirement Impact */}
         <div className="text-center">
-          <div className="bg-warm-gray-lighter rounded-lg p-4">
-            <Clock className="w-8 h-8 mx-auto mb-2 text-teal-accent" />
+          <div className={`bg-warm-gray-lighter rounded-lg p-4 ${isProfit ? 'bg-green-50' : ''}`}>
+            <Clock className={`w-8 h-8 mx-auto mb-2 ${isProfit ? 'text-green-500' : 'text-teal-accent'}`} />
             <p className="text-3xl font-bold text-charcoal-dark mb-2">
               {isProfit ? retirementYears : 0}
             </p>

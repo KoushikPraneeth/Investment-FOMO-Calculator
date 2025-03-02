@@ -6,6 +6,7 @@ frontend/node_modules/
 
 # Testing
 /coverage
+frontend/coverage
 
 # Production
 /build
@@ -25,7 +26,11 @@ frontend/dist
 .env.development.local
 .env.test.local
 .env.production.local
-frontend/.env*
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
 
 # Debug logs
 npm-debug.log*
@@ -42,19 +47,28 @@ debug.log
 ehthumbs.db
 Thumbs.db
 
-# Compiled output
-*.class
-*.jar
-*.war
-*.ear
-*.log
-
 # Spring Boot specific
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 .mvn/timing.properties
+fomocalculatorbackend/target/
+
+# Logs
+logs/
+fomocalculatorbackend/logs/
+*.log
+
+# Generated content
+fomocalculatorbackend/memes/*
+!fomocalculatorbackend/memes/.gitkeep
+
+# Compiled output
+*.class
+*.jar
+*.war
+*.ear
 
 # IDE - VSCode
 .vscode/*
@@ -62,3 +76,21 @@ target/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Bolt AI assistant files
+.bolt/
+frontend/.bolt/
+
+# TypeScript
+tsconfig.tsbuildinfo
+
+# Cache files
+.eslintcache
+.stylelintcache
+.cache/
+
+# Temporary files
+.temp
+.tmp
+temp/
+tmp/
