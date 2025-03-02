@@ -25,6 +25,7 @@ import { supabase } from "./lib/supabase";
 import { ScenarioSelector, type Scenario } from "./components/ScenarioSelector";
 import { AdvancedMetrics } from "./components/AdvancedMetrics";
 import { InvestmentChart } from "./components/InvestmentChart";
+import { FloatingFOMOChat } from "./components/FloatingFOMOChat";
 
 function Dashboard() {
   const [selectedAsset, setSelectedAsset] = useState("");
@@ -385,6 +386,9 @@ function Dashboard() {
           hypotheticals. Consult a therapist (or a cat) before making real
           investments.
         </footer>
+        
+        {/* Floating FOMO Chat */}
+        <FloatingFOMOChat results={results} assetSymbol={selectedAsset} />
       </div>
     </div>
   );

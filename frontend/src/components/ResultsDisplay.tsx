@@ -1,11 +1,12 @@
 import React from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import type { InvestmentResult } from "../services/api";
-import { FOMOChatbot } from "./FOMOChatbot";
+// FOMOChatbot removed and replaced with floating chat
 import { MemeGenerator } from "./MemeGenerator";
 import { InvestmentChart } from "./InvestmentChart";
 import { TimeTravelersJournal } from "./TimeTravelersJournal";
 import { OpportunityDisplay } from "./OpportunityDisplay";
+import { InvestmentInsights } from "./InvestmentInsights";
 
 interface ResultsDisplayProps {
   results: InvestmentResult | null;
@@ -117,7 +118,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
   if (!results) return null;
   
   // Add state for tab navigation on mobile
-  const [activeTab, setActiveTab] = React.useState<'results' | 'chart' | 'opportunity' | 'meme' | 'journal' | 'chatbot'>('results');
+  const [activeTab, setActiveTab] = React.useState<'results' | 'chart' | 'opportunity' | 'meme' | 'journal' | 'insights'>('results');
 
   return (
     <div className="space-y-6">
@@ -155,12 +156,15 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
             Journal
           </button>
         )}
-        <button 
-          onClick={() => setActiveTab('chatbot')} 
-          className={`px-3 py-2 text-sm font-medium rounded-md whitespace-nowrap ${activeTab === 'chatbot' ? 'bg-teal-accent text-white' : 'bg-white text-charcoal'}`}
-        >
-          Chatbot
-        </button>
+        {entryDate && exitDate && (
+          <button 
+            onClick={() => setActiveTab('insights')} 
+            className={`px-3 py-2 text-sm font-medium rounded-md whitespace-nowrap ${activeTab === 'insights' ? 'bg-teal-accent text-white' : 'bg-white text-charcoal'}`}
+          >
+            Insights
+          </button>
+        )}
+        {/* FOMO Chatbot button removed */}
       </div>
       
       {/* Desktop: Show all components, Mobile: Show based on active tab */}
@@ -201,9 +205,19 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
         </div>
       )}
       
-      <div className={`md:block ${activeTab === 'chatbot' ? 'block' : 'hidden'}`}>
-        <FOMOChatbot results={results} assetSymbol={assetSymbol} />
-      </div>
+      {/* FOMO Chatbot section removed */}
+      
+      {entryDate && exitDate && (
+        <div className={`md:block ${activeTab === 'insights' ? 'block' : 'hidden'}`}>
+          <InvestmentInsights
+            results={results}
+            assetSymbol={assetSymbol}
+            amount={amount}
+            entryDate={entryDate}
+            exitDate={exitDate}
+          />
+        </div>
+      )}
     </div>
   );
 };
