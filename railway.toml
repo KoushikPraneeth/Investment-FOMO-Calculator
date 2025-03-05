@@ -1,0 +1,26 @@
+[build]
+  builder = "nixpacks"
+  buildCommand = "cd fomocalculatorbackend && ./mvnw clean package -DskipTests"
+
+[deploy]
+  startCommand = "cd fomocalculatorbackend && java -jar target/*.jar"
+  healthcheckPath = "/api/health"
+  healthcheckTimeout = 300
+  restartPolicyType = "on_failure"
+
+[env]
+  PORT = "8080"
+  JAVA_OPTS = "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+
+[[services]]
+  name = "fomo-calculator-backend"
+  internal_port = 8080
+  protocol = "http"
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+  
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
