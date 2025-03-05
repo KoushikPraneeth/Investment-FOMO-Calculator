@@ -1,0 +1,33 @@
+# Git
+.git
+.gitignore
+
+# Node.js
+frontend/node_modules
+frontend/dist
+frontend/build
+frontend/.cache
+
+# Maven
+fomocalculatorbackend/target
+
+# Environment files
+.env*
+frontend/.env*
+
+# IDE files
+.idea
+.vscode
+
+# Logs
+*.log
+logs
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Other
+*.md
+LICENSE
+.bolt/

@@ -1,1 +1,1 @@
-web: cd fomocalculatorbackend && java -jar target/*.jar
+web: java -jar app.jar
