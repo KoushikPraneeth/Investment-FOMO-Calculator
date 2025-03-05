@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { format } from 'date-fns';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+// Ensure the API base URL doesn't end with a slash
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+const API_BASE_URL = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
 
 interface HistoricalPricePoint {
   date: string;
